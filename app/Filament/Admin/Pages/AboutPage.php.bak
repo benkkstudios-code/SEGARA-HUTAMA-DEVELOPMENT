@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Filament\Admin\Pages;
+
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use App\Models\AboutPages;
+use App\Models\HomeSetting;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Pages\Page;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Textarea;
+
+class AboutPage extends Page implements HasForms
+{
+    use InteractsWithForms;
+
+    protected static ?int $navigationSort = 5;
+
+    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
+    protected static string $view = 'filament.pages.setting';
+
+    protected static ?string $navigationGroup = 'Pengaturan';
+
+    protected static ?string $title = 'About';
+
+    public array $data = [];
+
+    public $model = null;
+
+    public function mount(): void
+    {
+
+        $this->model = AboutPages::first();
+
+        // $this->data = $this->model->toArray();
+        $this->form->fill($this->model->toArray());
+        // if ($this->model->image) {
+        //     $this->data['image'] = [$this->model->image];
+        // }
+    }
+
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('title')
+                    ->label('Judul')
+                    ->required(),
+                TextInput::make('subtitle')
+                    ->label('Sub Judul')
+                    ->required(),
+                FileUpload::make('image')->label('Gambar')
+                    ->required()
+                    ->disk('public')
+                    ->directory('upload')
+                    ->visibility('public')
+                    ->preserveFilenames()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->columnSpanFull(),
+                TinyEditor::make('content')
+                // Textarea::make('content')->label('Konten')
+                //     ->required()
+                //     ->autosize(true)
+                //     ->rows(10)
+                //     ->cols(20)
+
+            ])
+            ->statePath('data')
+            ->model($this->model);
+    }
+
+
+    public function submit()
+    {
+        $user = Auth::user();
+
+        if ($user->hasAccess()) {
+            $update = $this->model->update($this->form->getState());
+            if ($update) {
+                \Filament\Notifications\Notification::make()
+                    ->title('Setting update succesfully')
+                    ->success()
+                    ->send();
+            } else {
+                \Filament\Notifications\Notification::make()
+                    ->title('Setting not updated')
+                    ->danger()
+                    ->send();
+            }
+        } else {
+            \Filament\Notifications\Notification::make()
+                ->title('Kamu tidak mempunyai akses untuk ini')
+                ->danger()
+                ->send();
+        }
+    }
+}

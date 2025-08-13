@@ -1,0 +1,14 @@
+.invoice-header {
+    font-weight: bold;
+}
+
+.invoice-info {
+    line-height: 0.4 !important;
+}
+
+.invoice-alamat {
+    font-size: 12px;
+    line-height: 1.2 !important;
+    margin-left: 67px;
+    margin-bottom: 34px;
+}

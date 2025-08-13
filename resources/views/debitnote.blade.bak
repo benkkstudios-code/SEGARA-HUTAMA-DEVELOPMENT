@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://harnishdesign.net/demo/html/koice/index-invoice-hotels.html -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://harnishdesign.net/demo/html/koice/images/favicon.png" rel="icon">
+    <title>Debit Note</title>
+    <meta name="author" content="BENKKSTUDIOS">
+
+    <!-- Web Fonts
+======================= -->
+    <link rel="stylesheet" href="./Hotel Booking Invoice - Koice_files/css" type="text/css">
+
+    <!-- Stylesheet
+======================= -->
+
+    <link rel=" stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel=" stylesheet" type="text/css" href="{{ asset('assets/css/stylesheet.css') }}">
+    <link rel=" stylesheet" type="text/css" href="{{ asset('assets/css/all.min.css') }}">
+</head>
+
+<body>
+    <!-- Container -->
+    <div class="container-fluid invoice-container">
+        <!-- Header -->
+        <header>
+            <div class="row align-items-center gy-3">
+                <div class="col-sm-12 text-center text-sm-start"> <img id="logo"
+                        src="{{ asset('assets/css/logo.png') }}" title="SEGARA HUTAMA GROUP" width="100%"> </div>
+
+            </div>
+            <hr>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <div class="row">
+                <div class="col-sm-6 text-start">
+                    <h2 class="mb-0">DEBIT NOTE</h2>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <p class="mb-0">Nomor : <strong>{{ $data['invoice']->nomor }}</strong></p>
+                    <p class="mb-0">Tanggal : <strong>{{ $data['tanggal'] }}</strong></p>
+                </div>
+            </div>
+
+            <hr class="mt-10">
+            <div class="row">
+                <div class="col-sm-5"> <strong>Kepada:</strong>
+                    <address>
+                        {{ $data['perusahaan']->nama }}<br>
+                        {{ $data['perusahaan']->alamat }}
+                    </address>
+                </div>
+                <div class="col-sm-7">
+                    <div class="row">
+                        <div class="col-sm-4"> <strong>Transportasi:</strong>
+                            <p>{{ $data['invoice']->transportasi }}</p>
+                        </div>
+                        <div class="col-sm-4"> <strong>Lokasi Muat:</strong>
+                            <p>{{ $data['invoice']->lokasi_muat }}</p>
+                        </div>
+                        <div class="col-sm-4"> <strong>Nomor PIB:</strong>
+                            <p>{{ $data['invoice']->pib }}</p>
+                        </div>
+                        <div class="col-sm-8"> <strong>Shipper:</strong>
+                            <p>{{ $data['invoice']->pengirim }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table border mb-0">
+                    <thead>
+                        <tr class="bg-light">
+                            <td class="col-6"><strong>Keterangan</strong></td>
+                            <td class="col-4 text-end"><strong>TonaseEEEE</strong></td>
+                            <td class="col-2 text-end"><strong>Total</strong></td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($data['invoice']->uraian as $item)
+                        <tr>
+                            <td class="col-6">{{ $item['keterangan'] }}</td>
+                            <td class="col-4 text-end">{{ $item['tonase'] }}</td>
+                            <td class="col-2 text-end">{{ 'Rp.' . str_replace(',00', '', number_format($item['jumlah'],
+                                2, ",",
+                                ".")) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table border border-top-0 mb-0">
+                    <tbody>
+                        <tr class="bg-light">
+                            <td colspan="2" class="text-end border-bottom-0"><strong>TOTAL:</strong></td>
+                            <td class="col-sm-2 text-end border-bottom-0">{{ $data['total'] }}</td>
+                        </tr>
+                        </tr>
+                        <td colspan="3" class="divider">
+
+                        </td>
+                        </tr>
+                        <tr class="bg-light">
+                            <td class="text-start border-bottom-0"><strong>TERBILANG:</strong></td>
+                            <td colspan="2" class="col-sm-2 text-end border-bottom-0">{{ $data['terbilang'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="text-center">
+            <hr>
+            <div class="row">
+                <div class="col-sm-6 text-start">
+                    <strong>Rekening :</strong>
+                    <address>
+                        {{ $data['rekening']->bank }}<br>
+                        {{ $data['rekening']->nomor }}<br>
+                        {{ $data['rekening']->pemilik }}
+                    </address>
+                </div>
+                <div class="col-sm-6">
+                    <strong>Terima Kasih,</strong></br>
+                    <strong>PT. SEGARA HUTAMA KARYA EXIM</strong></br></br></br>
+                    <strong>{{ $data['setting']->penandatangan
+                        }}</strong>
+                </div>
+            </div>
+
+
+            <hr>
+            <div class="btn-group btn-group-sm d-print-none"> <a href="javascript:window.print()"
+                    class="btn btn-light border text-black-50 shadow-none"><i class="fa fa-print"></i> Print &amp;
+                    Download</a> </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>
