@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Premis extends Model
 {
     use HasFactory;
+
+    // protected $casts = [
+    //     'premis' => 'array',
+
+    // ];
 }

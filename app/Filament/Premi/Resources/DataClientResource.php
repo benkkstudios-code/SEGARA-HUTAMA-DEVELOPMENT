@@ -2,7 +2,10 @@
 
 namespace App\Filament\Premi\Resources;
 
+use App\Filament\Premi\Pages\DetailDataClient as PagesDetailDataClient;
+use App\Filament\Premi\Pages\DetailTransaksi;
 use App\Filament\Premi\Resources\DataClientResource\Pages;
+use App\Filament\Premi\Resources\DataClientResource\Pages\DetailDataClient;
 use App\Filament\Premi\Resources\DataClientResource\RelationManagers;
 use App\Libraries\Benkkstudios;
 use App\Models\DataClient;
@@ -127,9 +130,11 @@ class DataClientResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->recordUrl(
-                fn(DataClients $record): string => route('posts.edit', ['record' => $record]),
-            );;
+            ->recordUrl(fn(DataClients $record): string => 'detail-data-client/' . $record->id)
+            // ->recordUrl(
+            //     fn(DataClients $record): string => PagesDetailDataClient::getUrl() . '/' . $record->id,
+            // )
+        ;
     }
 
     public static function getRelations(): array
@@ -145,6 +150,7 @@ class DataClientResource extends Resource
             'index' => Pages\ListDataClients::route('/'),
             'create' => Pages\CreateDataClient::route('/create'),
             'edit' => Pages\EditDataClient::route('/{record}/edit'),
+            // 'detail' => Pages\DetailDataClient::route('/{record}/detail'),
         ];
     }
 }

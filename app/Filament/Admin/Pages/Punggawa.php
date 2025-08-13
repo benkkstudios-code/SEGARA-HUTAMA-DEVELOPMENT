@@ -11,6 +11,7 @@ use App\Models\Kontak;
 use App\Models\Project;
 use App\Models\Punggawas;
 use App\Models\ServicesPages;
+use App\Models\User;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -59,8 +60,9 @@ class Punggawa extends Page implements HasForms
                     ->required(),
                 Repeater::make('content')
                     ->label('Punggawa')
-                    ->grid(2)
-                    ->schema([
+                ->grid(1)
+
+                ->schema([
                         TextInput::make('nama')
                             ->required(),
                         TextInput::make('Jabatan')
