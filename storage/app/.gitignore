@@ -1,3 +1,5 @@
-*
-!public/
-!.gitignore
+node_modules
+vendor
+.idea
+.vscode
+database/*
